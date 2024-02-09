@@ -5,3 +5,58 @@
 body {
   font-family: "Inconsolata", monospace;
 }
+input {
+  /* background-color: transparent; */
+  border: none;
+  outline: none;
+  width: 50vw;
+
+  color: #000000;
+}
+@media screen and (max-width: 2000px) {
+  input {
+    border: none;
+    outline: none;
+    width: 45vw;
+
+    color: #000000;
+  }
+}
+@media screen and (max-width: 520px) {
+  input {
+    border: none;
+    outline: none;
+    width: 20vw;
+
+    color: #000000;
+  }
+}
+body,
+html {
+  height: 100%;
+  margin: 0;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.section {
+  flex-grow: 1;
+}
+
+.section-01 {
+  background-color: #f0f0f0;
+  flex-basis: 30%;
+}
+
+.section-02 {
+  background-color: #c0c0c0;
+  flex-basis: 70%;
+}
+
+.erroredField {
+  border: 2px solid red;
+}
