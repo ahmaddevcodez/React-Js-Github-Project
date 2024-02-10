@@ -10,30 +10,6 @@ function SearchBar() {
   function handleValue(e) {
     setData({ ...data, [e.target.name]: e.target.value });
   }
-  // function validatedData() {
-  //   const keys = Object.keys(data);
-  //   let errorsCopy = { ...errors };
-  //   keys.forEach((key) => {
-  //     if (data[key] !== undefined && data[key] !== null && data[key] !== "") {
-  //       if (data[key].length === 0) {
-  //         errorsCopy = { ...errorsCopy, [key]: "This Field cannot be empty" };
-  //       } else {
-  //         errorsCopy = { ...errorsCopy, [key]: null };
-  //       }
-  //     }
-  //   });
-  //   const isError = Object.keys(errorsCopy).length !== 0;
-
-  //   return !isError;
-  // }
-  // function onSubmit() {
-  //   if (!validatedData()) {
-  //     setErrors(errorsCopy); // Corrected variable name
-  //     return;
-  //   }
-
-  //   setErrors({});
-  // }
 
   function onSubmit() {
     const keys = Object.keys(data);
@@ -102,3 +78,27 @@ function SearchBar() {
 }
 
 export default SearchBar;
+// function validatedData() {
+//   const keys = Object.keys(data);
+//   let errorsCopy = { ...errors };
+//   keys.forEach((key) => {
+//     if (data[key] !== undefined && data[key] !== null && data[key] !== "") {
+//       if (data[key].length === 0) {
+//         errorsCopy = { ...errorsCopy, [key]: "This Field cannot be empty" };
+//       } else {
+//         errorsCopy = { ...errorsCopy, [key]: null };
+//       }
+//     }
+//   });
+//   const isError = Object.keys(errorsCopy).length !== 0;
+
+//   return !isError;
+// }
+// function onSubmit() {
+//   if (!validatedData()) {
+//     setErrors(errorsCopy); // Corrected variable name
+//     return;
+//   }
+
+//   setErrors({});
+// }
