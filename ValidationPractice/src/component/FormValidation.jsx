@@ -3,10 +3,13 @@ import { useState } from "react";
 function App() {
   const [data, setData] = useState({
     name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
 
-  function handleName(event) {
+  function handleChange(event) {
     setData({ ...data, [event.target.name]: event.target.value });
   }
 
@@ -18,18 +21,20 @@ function App() {
     keys.forEach((key) => {
       const keys = data[key];
 
-      if (
-        keys === undefined ||
-        keys === null ||
-        keys.trim().length === 0 ||
-        keys.length > 9
-      ) {
+      if (keys === undefined || keys === null || keys.trim().length === 0) {
         copyErrors = {
           ...copyErrors,
-          [key]: "Field Cannot Be Empty or Exceed 9 characters",
+          [key]: "Field Cannot Be Empty",
         };
       } else {
         copyErrors = { ...copyErrors, [key]: null };
+      }
+
+      if (key === "email" && !validateEmail(keys)) {
+        copyErrors = {
+          ...copyErrors,
+          [key]: "Invalid email",
+        };
       }
     });
 
@@ -45,6 +50,8 @@ function App() {
 
   const validateEmail = (email) => {
     return String(email)
+      .trim()
+
       .toLowerCase()
       .match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -52,8 +59,8 @@ function App() {
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded shadow-md">
-        <h2 className="text-2xl font-bold mb-6 text-gray-800">Register</h2>
+      <div className="bg-white p-20 rounded-lg shadow-md">
+        <h2 className="text-3xl font-bold mb-6 text-gray-800">Sign Up</h2>
         <form onSubmit={onSubmit}>
           <div className="mb-4">
             <label
@@ -66,9 +73,9 @@ function App() {
             <input
               type="text"
               name="name"
-              onChange={handleName}
+              onChange={handleChange}
               className={
-                "w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" +
+                "w-full px-4 py-2 pr-28 border rounded-md focus:outline-none focus:border-blue-500" +
                 (errors.name ? " erroredField" : "")
               }
               placeholder="Enter your name"
@@ -90,13 +97,22 @@ function App() {
             </label>
             <input
               type="email"
-              id="email"
               name="email"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              onChange={handleChange}
+              className={
+                "w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" +
+                (errors.email ? " erroredField" : "")
+              }
               placeholder="Enter your email"
             />
+            <br />
+            {errors["email"] && (
+              <label htmlFor="email">
+                <small>{errors["email"]}</small>
+              </label>
+            )}
           </div>
-          {/*   
+
           <div className="mb-4">
             <label
               htmlFor="password"
@@ -106,12 +122,22 @@ function App() {
             </label>
             <input
               type="password"
-              id="password"
               name="password"
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              onChange={handleChange}
+              className={
+                "w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" +
+                (errors.password ? " erroredField" : "")
+              }
               placeholder="Enter your password"
             />
+            <br />
+            {errors["password"] && (
+              <label htmlFor="password">
+                <small>{errors["password"]}</small>
+              </label>
+            )}
           </div>
+
           <div className="mb-6">
             <label
               htmlFor="confirmPassword"
@@ -121,20 +147,28 @@ function App() {
             </label>
             <input
               type="password"
-              id="confirmPassword"
               name="confirmPassword"
-              // onChange={handleChange}
+              onChange={handleChange}
               // value={data.confirmPassword}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"
+              className={
+                "w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500" +
+                (errors.confirmPassword ? " erroredField" : "")
+              }
               placeholder="Confirm your password"
             />
-          </div> */}
+            <br />
+            {errors["confirmPassword"] && (
+              <label htmlFor="confirmPassword">
+                <small>{errors["confirmPassword"]}</small>
+              </label>
+            )}
+          </div>
           <div className="flex items-center justify-end">
             <button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-blue-700"
             >
-              Register
+              Sign Up
             </button>
           </div>
         </form>
