@@ -7,6 +7,7 @@ function App() {
     password: "",
     confirmPassword: "",
   });
+  console.log(data);
   const [errors, setErrors] = useState({});
 
   function handleChange(event) {
@@ -30,6 +31,19 @@ function App() {
         copyErrors = { ...copyErrors, [key]: null };
       }
 
+      // if (data.password !== data.confirmPassword) {
+      //   copyErrors = {
+      //     ...copyErrors,
+      //     [key]: "Passwords Are Not Same",
+      //   };
+      // }
+      if (data.password.trim() !== data.confirmPassword.trim()) {
+        copyErrors = {
+          ...copyErrors,
+          password: "Passwords do not match",
+          confirmPassword: "Passwords Are Not Same",
+        };
+      }
       if (key === "email" && !validateEmail(keys)) {
         copyErrors = {
           ...copyErrors,
@@ -51,7 +65,6 @@ function App() {
   const validateEmail = (email) => {
     return String(email)
       .trim()
-
       .toLowerCase()
       .match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

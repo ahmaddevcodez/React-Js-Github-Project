@@ -11,11 +11,16 @@ function SearchBar() {
     setData({ ...data, [e.target.name]: e.target.value });
   }
 
-  function onSubmit() {
+  function onSubmit(e) {
+    e.preventDefault();
     const keys = Object.keys(data);
     let errorsCopy = { ...errors };
     keys.forEach((key) => {
-      if (data[key] !== undefined && data[key] !== null) {
+      if (
+        data[key] !== undefined ||
+        data[key] !== null ||
+        keys.trim().length === 0
+      ) {
         if (data[key].length === 0) {
           errorsCopy = { ...errorsCopy, [key]: "This Field cannot be empty" };
         } else {
@@ -34,7 +39,10 @@ function SearchBar() {
   }
 
   return (
-    <form className="bg-SeacrhBarDarkBgColor rounded-lg flex justify-between align-middle p-2 mb-8">
+    <form
+      onSubmit={onSubmit}
+      className="bg-SeacrhBarDarkBgColor dark:bg-SeacrhBarLightBgColor  rounded-lg flex justify-between align-middle p-2 mb-8"
+    >
       <div className="flex ">
         <svg
           className="mt-3"
@@ -49,7 +57,7 @@ function SearchBar() {
         </svg>
         <input
           className={
-            "border-none font-light tracking-normal outline-SeacrhBarDarkBgColor text-UniversalParaColor bg-SeacrhBarDarkBgColor ml-8 " +
+            "border-none font-light searchBarbg tracking-normal  dark:bg-SeacrhBarLightBgColor outline-SeacrhBarDarkBgColor text-UniversalParaColor bg-SeacrhBarDarkBgColor ml-8 " +
             (errors.searchValue ? "erroredField" : "")
           }
           type="text"
@@ -57,18 +65,19 @@ function SearchBar() {
           name="searchValue"
           onChange={handleValue}
         />
-        <br />
-        {errors["searchValue"] && (
-          <label htmlFor="searchValue">
-            <small>{errors["searchValue"]}</small>
-          </label>
-        )}
+        <div className="mt-3">
+          {errors["searchValue"] && (
+            <label htmlFor="searchValue">
+              <small className="text-white">{errors["searchValue"]}</small>
+            </label>
+          )}
+        </div>
       </div>
       <div>
         <button
-          onClick={onSubmit}
+          // onClick={onSubmit}
           required
-          className=" bg-UniversalBtnBgColor text-UniversalParaColor p-3 pl-6 rounded-xl pr-6"
+          className="searchBar-btn bg-UniversalBtnBgColor text-UniversalParaColor p-3 pl-6 rounded-xl pr-6"
         >
           Search
         </button>

@@ -5,13 +5,13 @@ function Navbar() {
   return (
     <div>
       <div className="flex justify-between align-middle mb-10">
-        <h1 className="text-NavLightHeadingColor dark:text-NavDarkHeadingColor text-3xl font-bold tracking-normal">
+        <h1 className="mb-2 text-NavLightHeadingColor main-heading dark:text-NavDarkHeadingColor 2xl:text-5xl xl:text-4xl  lg:text-4xl md:text-4xl sm:text-4xl text-center font-bold tracking-normal">
           devfinder
         </h1>
-        <p className="text-NavLightHeadingColor font-bold tracking-wider dark:text-NavDarkParaColor text-center  ">
+        <p className="pt-1  text-NavLightHeadingColor font-bold tracking-wider lg:text-1xl md:text-2xl sm:text-1xl dark:text-NavDarkParaColor text-center  ">
           LIGHT
           <svg
-            className="inline-block ml-5 cursor-pointer mb-1"
+            className="inline-block ml-5 cursor-pointer mb-1 "
             width="20"
             height="20"
             xmlns="http://www.w3.org/2000/svg"
