@@ -1,33 +1,28 @@
-import React, { useContext } from "react";
-import SearchContext from "../context/userContext";
+import React, { useState } from "react";
+import { useUserContext } from "../context/userContext";
 
 function SearchBar() {
-  const { searchValue, updateSearchValue, updateUserData } =
-    useContext(SearchContext);
+  const [data, setData] = useState({
+    searchValue: "",
+  });
 
+  const { setUser } = useUserContext();
   const [errors, setErrors] = useState({});
 
   function handleChange(event) {
-    updateSearchValue(event.target.value);
+    setData({ ...data, [event.target.name]: event.target.value });
+    setErrors({ ...errors, [event.target.name]: null }); // Clear error when the user types
   }
 
   function onSubmit(e) {
     e.preventDefault();
 
-    const keys = Object.keys(searchValue);
+    const keys = Object.keys(data);
     let copyErrors = { ...errors };
 
     keys.forEach((key) => {
-      if (
-        searchValue[key] !== undefined ||
-        searchValue[key] !== null ||
-        searchValue[key].trim().length === 0
-      ) {
-        if (searchValue[key].trim().length === 0) {
-          copyErrors = { ...copyErrors, [key]: "This Field cannot be empty" };
-        } else {
-          copyErrors = { ...copyErrors, [key]: null };
-        }
+      if (data[key].trim().length === 0) {
+        copyErrors = { ...copyErrors, [key]: "This Field cannot be empty" };
       }
     });
 
@@ -39,18 +34,28 @@ function SearchBar() {
     }
 
     const githubInfoLoader = async (username) => {
-      const response = await fetch(`https://api.github.com/users/${username}`);
-      return response.json();
+      try {
+        const response = await fetch(
+          `https://api.github.com/users/${username}`
+        );
+        if (!response.ok) {
+          throw new Error(`GitHub API error: ${response.statusText}`);
+        }
+        return response.json();
+      } catch (error) {
+        console.error("Error fetching GitHub data:", error.message);
+        alert("Error fetching GitHub data. Please try again.");
+        throw error;
+      }
     };
 
     setErrors({});
-    githubInfoLoader(searchValue)
+    githubInfoLoader(data.searchValue)
       .then((resultData) => {
-        updateUserData(resultData);
+        setUser(resultData); // Update the global state with fetched data
       })
       .catch((error) => {
         console.error("Error fetching GitHub data:", error);
-        alert("Error fetching GitHub data. Please try again.");
       });
   }
 
@@ -91,9 +96,7 @@ function SearchBar() {
       </div>
       <div>
         <button
-          value={data}
-          onChange={handleChange}
-          required
+          type="submit" // Added type attribute to make the button trigger the form submission
           className="searchBar-btn bg-UniversalBtnBgColor text-UniversalParaColor p-3 pl-6 rounded-xl pr-6"
         >
           Search

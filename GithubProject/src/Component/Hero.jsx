@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
-import UserContext from "../context/userContext";
+import React from "react";
+import { useUserContext } from "../context/userContext";
 
-function HeroSection() {
-  const { user } = useContext(UserContext);
-
+function Hero() {
+  const { user } = useUserContext();
   return (
     <div className="grid p-10 pr-10 pl-10 lg:grid-cols-4 grid-cols-1 gap-6 rounded-xl text-NavLightHeadingColor bg-HeroDarkBgColor">
       <div className="lg:col-span-1 main-img-div items-center  justify-center mt-4">
@@ -19,15 +18,13 @@ function HeroSection() {
         <div className="flex justify-between">
           <div>
             <h1 className="mb-2 text-NavLightHeadingColor main-heading dark:text-NavDarkHeadingColor 2xl:text-5xl xl:text-4xl  lg:text-4xl md:text-4xl sm:text-4xl  font-bold tracking-normal">
-              {user.name || "Your Name"}
+              Your Name
             </h1>
-            <a href={`https://github.com/${user.login}`}>
-              <h1 className="text-UniversalLinkColor">
-                @{user.login || "UserName"}
-              </h1>
+            <a href="Your Id">
+              <h1 className="text-UniversalLinkColor">@UserName</h1>
             </a>
             <h1 className="mt-7 dark:text-HeroSectionUnavaibleTextColor">
-              {user.bio || "Your Bio"}
+              Your Bio
             </h1>
           </div>
 
@@ -42,7 +39,7 @@ function HeroSection() {
               Repos
             </h1>
             <h1 className="section-h1 text-NavLightHeadingColor main-heading dark:text-NavDarkHeadingColor 2xl:text-5xl xl:text-4xl  lg:text-4xl md:text-4xl sm:text-1xl  font-bold tracking-normal">
-              {user.public_repos || 0}
+              8
             </h1>
           </div>
           <div>
@@ -50,7 +47,7 @@ function HeroSection() {
               Followers
             </h1>
             <h1 className="section-h1 text-NavLightHeadingColor main-heading dark:text-NavDarkHeadingColor 2xl:text-5xl xl:text-4xl  lg:text-4xl md:text-4xl sm:text-1xl  font-bold tracking-normal">
-              {user.followers || 0}
+              1486
             </h1>
           </div>
           <div>
@@ -58,7 +55,7 @@ function HeroSection() {
               Following
             </h1>
             <h1 className="section-h1 text-NavLightHeadingColor main-heading dark:text-NavDarkHeadingColor 2xl:text-5xl xl:text-4xl  lg:text-4xl md:text-4xl sm:text-1xl  font-bold tracking-normal">
-              {user.following || 0}
+              786
             </h1>
           </div>
         </div>
@@ -72,7 +69,7 @@ function HeroSection() {
                 src="/assets/location-sign-svgrepo-com.svg"
                 alt=""
               />
-              <h1 className="section-h1">{user.location || "City Name"}</h1>
+              <h1 className="section-h1">City Name</h1>
             </div>
             <div className="flex mt-5 mb-10 items-center">
               <img
@@ -80,7 +77,7 @@ function HeroSection() {
                 src="/assets/171454_link_icon.svg"
                 alt=""
               />
-              <h1 className="section-h1 ">{user.blog || "github.blog"}</h1>
+              <h1 className="section-h1 ">github.blog</h1>
             </div>
           </div>
 
@@ -92,9 +89,7 @@ function HeroSection() {
                 src="/assets/icon-twitter.svg"
                 alt=""
               />
-              <h1 className="section-h1">
-                {user.twitter_username || "City Name"}
-              </h1>
+              <h1 className="section-h1">City Name</h1>
             </div>
             <div className="flex mt-5 mt-up  items-center lg:justify-end mr-4">
               <img
@@ -102,7 +97,7 @@ function HeroSection() {
                 src="/assets/icon-company.svg"
                 alt=""
               />
-              <h1 className="section-h1">@{user.company || "gitHub"}</h1>
+              <h1 className="section-h1">@gitHub</h1>
             </div>
           </div>
         </div>
@@ -111,4 +106,4 @@ function HeroSection() {
   );
 }
 
-export default HeroSection;
+export default Hero;
