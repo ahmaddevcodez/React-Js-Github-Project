@@ -20,39 +20,31 @@ function App() {
     let copyErrors = { ...errors };
 
     keys.forEach((key) => {
-      const keys = data[key];
+      const keyValue = data[key];
+      let fieldError = null;
 
-      if (keys === undefined || keys === null || keys.trim().length === 0) {
-        copyErrors = {
-          ...copyErrors,
-          [key]: "Field Cannot Be Empty",
-        };
-      } else {
-        copyErrors = { ...copyErrors, [key]: null };
+      if (
+        keyValue === undefined ||
+        keyValue === null ||
+        keyValue.trim().length === 0
+      ) {
+        fieldError = "Field Cannot Be Empty";
+      } else if (key === "email" && !validateEmail(keyValue)) {
+        fieldError = "Invalid email";
       }
 
-      // if (data.password !== data.confirmPassword) {
-      //   copyErrors = {
-      //     ...copyErrors,
-      //     [key]: "Passwords Are Not Same",
-      //   };
-      // }
-      if (data.password.trim() !== data.confirmPassword.trim()) {
-        copyErrors = {
-          ...copyErrors,
-          password: "Passwords do not match",
-          confirmPassword: "Passwords Are Not Same",
-        };
+      if (
+        key === "password" &&
+        keyValue.trim() !== data.confirmPassword.trim()
+      ) {
+        fieldError = "Passwords do not match";
       }
-      if (key === "email" && !validateEmail(keys)) {
-        copyErrors = {
-          ...copyErrors,
-          [key]: "Invalid email",
-        };
-      }
+
+      copyErrors[key] = fieldError;
     });
 
-    const isError = Object.keys(copyErrors).length !== 0;
+    const isError = Object.values(copyErrors).some((error) => error !== null);
+    console.log(isError, errors);
 
     if (isError) {
       setErrors(copyErrors);
@@ -70,6 +62,7 @@ function App() {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-20 rounded-lg shadow-md">

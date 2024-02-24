@@ -1,49 +1,65 @@
-import React, { useState } from "react";
-import toast from "react-hot-toast";
+import React, { useContext } from "react";
+import SearchContext from "../context/userContext";
 
 function SearchBar() {
-  const [data, setData] = useState({
-    searchValue: "",
-  });
+  const { searchValue, updateSearchValue, updateUserData } =
+    useContext(SearchContext);
+
   const [errors, setErrors] = useState({});
 
-  function handleValue(e) {
-    setData({ ...data, [e.target.name]: e.target.value });
+  function handleChange(event) {
+    updateSearchValue(event.target.value);
   }
 
   function onSubmit(e) {
     e.preventDefault();
-    const keys = Object.keys(data);
-    let errorsCopy = { ...errors };
+
+    const keys = Object.keys(searchValue);
+    let copyErrors = { ...errors };
+
     keys.forEach((key) => {
       if (
-        data[key] !== undefined ||
-        data[key] !== null ||
-        keys.trim().length === 0
+        searchValue[key] !== undefined ||
+        searchValue[key] !== null ||
+        searchValue[key].trim().length === 0
       ) {
-        if (data[key].length === 0) {
-          errorsCopy = { ...errorsCopy, [key]: "This Field cannot be empty" };
+        if (searchValue[key].trim().length === 0) {
+          copyErrors = { ...copyErrors, [key]: "This Field cannot be empty" };
         } else {
-          errorsCopy = { ...errorsCopy, [key]: null };
+          copyErrors = { ...copyErrors, [key]: null };
         }
       }
     });
-    const isError = Object.keys(errorsCopy).length !== 0;
+
+    const isError = Object.values(copyErrors).some((error) => error !== null);
 
     if (isError) {
-      setErrors(errorsCopy);
+      setErrors(copyErrors);
       return;
     }
 
+    const githubInfoLoader = async (username) => {
+      const response = await fetch(`https://api.github.com/users/${username}`);
+      return response.json();
+    };
+
     setErrors({});
+    githubInfoLoader(searchValue)
+      .then((resultData) => {
+        updateUserData(resultData);
+      })
+      .catch((error) => {
+        console.error("Error fetching GitHub data:", error);
+        alert("Error fetching GitHub data. Please try again.");
+      });
   }
 
   return (
     <form
       onSubmit={onSubmit}
-      className="bg-SeacrhBarDarkBgColor dark:bg-SeacrhBarLightBgColor  rounded-lg flex justify-between align-middle p-2 mb-8"
+      className="bg-SeacrhBarDarkBgColor dark:bg-SeacrhBarLightBgColor rounded-lg flex justify-between align-middle p-2 mb-8"
     >
-      <div className="flex ">
+      <div className="flex">
         <svg
           className="mt-3"
           height="24"
@@ -63,7 +79,7 @@ function SearchBar() {
           type="text"
           placeholder="Github UserName "
           name="searchValue"
-          onChange={handleValue}
+          onChange={handleChange}
         />
         <div className="mt-3">
           {errors["searchValue"] && (
@@ -75,7 +91,8 @@ function SearchBar() {
       </div>
       <div>
         <button
-          // onClick={onSubmit}
+          value={data}
+          onChange={handleChange}
           required
           className="searchBar-btn bg-UniversalBtnBgColor text-UniversalParaColor p-3 pl-6 rounded-xl pr-6"
         >
@@ -87,27 +104,3 @@ function SearchBar() {
 }
 
 export default SearchBar;
-// function validatedData() {
-//   const keys = Object.keys(data);
-//   let errorsCopy = { ...errors };
-//   keys.forEach((key) => {
-//     if (data[key] !== undefined && data[key] !== null && data[key] !== "") {
-//       if (data[key].length === 0) {
-//         errorsCopy = { ...errorsCopy, [key]: "This Field cannot be empty" };
-//       } else {
-//         errorsCopy = { ...errorsCopy, [key]: null };
-//       }
-//     }
-//   });
-//   const isError = Object.keys(errorsCopy).length !== 0;
-
-//   return !isError;
-// }
-// function onSubmit() {
-//   if (!validatedData()) {
-//     setErrors(errorsCopy); // Corrected variable name
-//     return;
-//   }
-
-//   setErrors({});
-// }
