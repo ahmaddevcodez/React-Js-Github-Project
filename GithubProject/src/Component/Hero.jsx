@@ -1,8 +1,23 @@
-import React from "react";
-import UserContextProvider from "../context/userContextProvider";
+import React, { useContext } from "react";
+import UserContext from "../context/userContextProvider"; // Import the context
 
 function Hero() {
-  const { user } = useUserContext();
+  const { user } = useContext(UserContext); // Use useContext to access context values
+
+  // Access user properties as needed
+  const {
+    name,
+    id,
+    bio,
+    followers,
+    following,
+    repos,
+    location,
+    blog,
+    twitter,
+    company,
+  } = user || {};
+
   return (
     <div className="grid p-10 pr-10 pl-10 lg:grid-cols-4 grid-cols-1 gap-6 rounded-xl text-NavLightHeadingColor bg-HeroDarkBgColor">
       <div className="lg:col-span-1 main-img-div items-center  justify-center mt-4">
