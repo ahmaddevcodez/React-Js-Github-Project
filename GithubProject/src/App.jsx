@@ -1,9 +1,8 @@
-import "./App.css";
+import React from "react";
 import Navbar from "./Component/Navbar";
 import SearchBar from "./Component/SearchBar";
 import Hero from "./Component/Hero";
-import UserContextProvider from "../context/UserContextProvider";
-import React from "react";
+import "./App.css";
 
 function App() {
   return (

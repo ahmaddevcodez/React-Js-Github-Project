@@ -1,5 +1,5 @@
 import React from "react";
-import { useUserContext } from "../context/userContext";
+import UserContextProvider from "../context/userContextProvider";
 
 function Hero() {
   const { user } = useUserContext();

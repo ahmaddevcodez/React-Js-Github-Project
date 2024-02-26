@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useUserContext } from "../context/userContext";
+import UserContextProvider from "../context/userContextProvider";
 
 function SearchBar() {
   const [data, setData] = useState({
     searchValue: "",
   });
 
-  const { setUser } = useUserContext();
+  const { setUser } = UserContextProvider();
   const [errors, setErrors] = useState({});
 
   function handleChange(event) {
