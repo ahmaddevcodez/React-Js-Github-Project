@@ -1,10 +1,8 @@
-import React, { useContext } from "react";
-import UserContext from "../context/userContextProvider"; // Import the context
+import React from "react";
+import UserContextProvider from "../context/userContextProvider";
 
 function Hero() {
-  const { user } = useContext(UserContext); // Use useContext to access context values
-
-  // Access user properties as needed
+  const { user } = UserContextProvider();
   const {
     name,
     id,
