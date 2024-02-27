@@ -1,17 +1,17 @@
 import React, { useState, useContext } from "react";
-import UserContext from "../context/userContext"; // Import the context
+import UserContext from "../context/userContext";
 
 function SearchBar() {
   const [data, setData] = useState({
     searchValue: "",
   });
 
-  const { setUser } = useContext(UserContext); // Use useContext to access context values
+  const { setUser } = useContext(UserContext);
   const [errors, setErrors] = useState({});
 
   function handleChange(event) {
     setData({ ...data, [event.target.name]: event.target.value });
-    setErrors({ ...errors, [event.target.name]: null }); // Clear error when the user types
+    setErrors({ ...errors, [event.target.name]: null });
   }
 
   function onSubmit(e) {
@@ -53,6 +53,7 @@ function SearchBar() {
     githubInfoLoader(data.searchValue)
       .then((resultData) => {
         setUser(resultData); // Update the global state with fetched data
+        console.log(resultData);
       })
       .catch((error) => {
         console.error("Error fetching GitHub data:", error);

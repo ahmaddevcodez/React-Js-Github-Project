@@ -1,8 +1,9 @@
-import React from "react";
-import UserContextProvider from "../context/userContextProvider";
+import React, { useContext } from "react";
+import UserContext from "../context/userContext"; // Import the context
 
 function Hero() {
-  const { user } = UserContextProvider();
+  const { user } = useContext(UserContext);
+
   const {
     name,
     id,
@@ -21,7 +22,7 @@ function Hero() {
       <div className="lg:col-span-1 main-img-div items-center  justify-center mt-4">
         <img
           className="profile-image bg-white p-2 rounded-full"
-          src="/assets/475909.png"
+          src={user?.avatar_url || "/assets/475909.png"}
           alt=""
         />
       </div>
@@ -31,18 +32,20 @@ function Hero() {
         <div className="flex justify-between">
           <div>
             <h1 className="mb-2 text-NavLightHeadingColor main-heading dark:text-NavDarkHeadingColor 2xl:text-5xl xl:text-4xl  lg:text-4xl md:text-4xl sm:text-4xl  font-bold tracking-normal">
-              Your Name
+              {user?.name || `Name`}
             </h1>
-            <a href="Your Id">
-              <h1 className="text-UniversalLinkColor">@UserName</h1>
+            <a href={user?.email}>
+              <h1 className="text-UniversalLinkColor">
+                {user?.email || `Username`}
+              </h1>
             </a>
             <h1 className="mt-7 dark:text-HeroSectionUnavaibleTextColor">
-              Your Bio
+              {user?.bio || `Bio`}
             </h1>
           </div>
 
           <div className="text-UniversalParaColor mt-1 joining">
-            <h1>When You Join</h1>
+            <h1>{user?.created_at || `When You Join`}</h1>
           </div>
         </div>
 
@@ -52,7 +55,7 @@ function Hero() {
               Repos
             </h1>
             <h1 className="section-h1 text-NavLightHeadingColor main-heading dark:text-NavDarkHeadingColor 2xl:text-5xl xl:text-4xl  lg:text-4xl md:text-4xl sm:text-1xl  font-bold tracking-normal">
-              8
+              {user?.public_repos || "0"}
             </h1>
           </div>
           <div>
@@ -60,7 +63,7 @@ function Hero() {
               Followers
             </h1>
             <h1 className="section-h1 text-NavLightHeadingColor main-heading dark:text-NavDarkHeadingColor 2xl:text-5xl xl:text-4xl  lg:text-4xl md:text-4xl sm:text-1xl  font-bold tracking-normal">
-              1486
+              {user?.followers || "0"}
             </h1>
           </div>
           <div>
@@ -68,7 +71,7 @@ function Hero() {
               Following
             </h1>
             <h1 className="section-h1 text-NavLightHeadingColor main-heading dark:text-NavDarkHeadingColor 2xl:text-5xl xl:text-4xl  lg:text-4xl md:text-4xl sm:text-1xl  font-bold tracking-normal">
-              786
+              {user?.following || "0"}
             </h1>
           </div>
         </div>
@@ -82,7 +85,7 @@ function Hero() {
                 src="/assets/location-sign-svgrepo-com.svg"
                 alt=""
               />
-              <h1 className="section-h1">City Name</h1>
+              <h1 className="section-h1">{user?.location || `City`}</h1>
             </div>
             <div className="flex mt-5 mb-10 items-center">
               <img
@@ -90,7 +93,7 @@ function Hero() {
                 src="/assets/171454_link_icon.svg"
                 alt=""
               />
-              <h1 className="section-h1 ">github.blog</h1>
+              <h1 className="section-h1 "> {user?.blog || `Blog`}</h1>
             </div>
           </div>
 
@@ -102,7 +105,9 @@ function Hero() {
                 src="/assets/icon-twitter.svg"
                 alt=""
               />
-              <h1 className="section-h1">City Name</h1>
+              <h1 className="section-h1">
+                {user?.twitter_username || "Twitter UserName"}
+              </h1>
             </div>
             <div className="flex mt-5 mt-up  items-center lg:justify-end mr-4">
               <img
@@ -110,7 +115,7 @@ function Hero() {
                 src="/assets/icon-company.svg"
                 alt=""
               />
-              <h1 className="section-h1">@gitHub</h1>
+              <h1 className="section-h1">{user?.company || "Github"}</h1>
             </div>
           </div>
         </div>
