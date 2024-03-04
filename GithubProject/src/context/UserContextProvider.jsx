@@ -8,7 +8,6 @@ export const UserContextProvider = ({ children }) => {
     setUserData(data);
   };
 
-  // Return the context provider with values and functions
   return (
     <UserContext.Provider value={{ user: userData, setUser: setUserDataValue }}>
       {children}
